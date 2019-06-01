@@ -1,0 +1,74 @@
+server:
+  port: 9001
+  max-http-header-size: 10000000
+  connection-timeout: 100000
+  #设置Tomcat默认超时连接时间,防止因网络波动导致的io异常,主机主动关闭连接
+
+#指定启动环境配置文件
+spring:
+  profiles:
+    active: dev
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 初始化大小，最小，最大
+    initialSize: 10
+    minIdle: 8
+    maxActive: 100
+    # 配置获取连接等待超时的时间
+    maxWait: 2000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: select 1 from sysibm.sysdummy1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    # 合并多个DruidDataSource的监控数据
+    useGlobalDataSourceStat: true
+
+  mvc:
+    #禁止SpringBoot默认的NoHandler处理机制,抛出异常,以便自定义处理
+    throw-exception-if-no-handler-found: true
+  resources:
+    #建立资源映射,可以根据路径访问静态页面
+    #注意,此处如果设置为true,则自动为webapp里面的页面创建静态映射
+    #全局异常映射处理则会不生效,即访问一个不存在的路径,返回的是默认的数据,而不是我们包装过后的数据
+    #设为false后访问错误路径返回JSON数据如:{"message": "请求地址{/web/adminUser/login}错误,请检查后再次尝试!","status": 500 }
+    add-mappings: false
+
+
+#自定义属性
+system:
+  properties:
+    #系统初始化后台超级管理员账号
+    username: admin
+    #密码
+    password: 123456
+    serverUrl: http:111
+    appId: 123
+    privateKey: 111
+    aliPyaPublicKey: 222
+    format: json
+    charest: utf-8
+    signType: RSA2
+
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+#  config-location: classpath:mybatis/config/mybatis-config.xml
+  configuration:
+    cache-enabled: true
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+    use-column-label: true
+    auto-mapping-behavior: full
+    default-statement-timeout: 2500
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl

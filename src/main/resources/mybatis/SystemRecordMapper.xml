@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.dao.mybatis.mapper.SystemRecordMapper">
+  <resultMap id="BaseResultMap" type="com.framework.dao.mybatis.model.SystemRecord">
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="delete_date" jdbcType="TIMESTAMP" property="deleteDate" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="cost_time" jdbcType="VARCHAR" property="costTime" />
+    <result column="memberuuid" jdbcType="VARCHAR" property="memberuuid" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="module" jdbcType="VARCHAR" property="module" />
+    <result column="req_data" jdbcType="VARCHAR" property="reqData" />
+    <result column="resp_data" jdbcType="VARCHAR" property="respData" />
+    <result column="source_ip" jdbcType="VARCHAR" property="sourceIp" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    uuid, create_date, delete_date, is_delete, update_date, channel, cost_time, memberuuid, 
+    method, module, req_data, resp_data, source_ip, status
+  </sql>
+  <select id="selectByExample" parameterType="com.framework.dao.mybatis.model.SystemRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_system_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_system_record
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_system_record
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.framework.dao.mybatis.model.SystemRecordExample">
+    delete from t_system_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.framework.dao.mybatis.model.SystemRecord">
+    <selectKey keyProperty="uuid" order="BEFORE" resultType="java.lang.String">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into t_system_record (uuid, create_date, delete_date, 
+      is_delete, update_date, channel, 
+      cost_time, memberuuid, method, 
+      module, req_data, resp_data, 
+      source_ip, status)
+    values (#{uuid,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{deleteDate,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=INTEGER}, #{updateDate,jdbcType=TIMESTAMP}, #{channel,jdbcType=VARCHAR}, 
+      #{costTime,jdbcType=VARCHAR}, #{memberuuid,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
+      #{module,jdbcType=VARCHAR}, #{reqData,jdbcType=VARCHAR}, #{respData,jdbcType=VARCHAR}, 
+      #{sourceIp,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.framework.dao.mybatis.model.SystemRecord">
+    <selectKey keyProperty="uuid" order="BEFORE" resultType="java.lang.String">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into t_system_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      uuid,
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="deleteDate != null">
+        delete_date,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="costTime != null">
+        cost_time,
+      </if>
+      <if test="memberuuid != null">
+        memberuuid,
+      </if>
+      <if test="method != null">
+        method,
+      </if>
+      <if test="module != null">
+        module,
+      </if>
+      <if test="reqData != null">
+        req_data,
+      </if>
+      <if test="respData != null">
+        resp_data,
+      </if>
+      <if test="sourceIp != null">
+        source_ip,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{uuid,jdbcType=VARCHAR},
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteDate != null">
+        #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="costTime != null">
+        #{costTime,jdbcType=VARCHAR},
+      </if>
+      <if test="memberuuid != null">
+        #{memberuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null">
+        #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="reqData != null">
+        #{reqData,jdbcType=VARCHAR},
+      </if>
+      <if test="respData != null">
+        #{respData,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceIp != null">
+        #{sourceIp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.framework.dao.mybatis.model.SystemRecordExample" resultType="java.lang.Long">
+    select count(*) from t_system_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_system_record
+    <set>
+      <if test="record.uuid != null">
+        uuid = #{record.uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteDate != null">
+        delete_date = #{record.deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.channel != null">
+        channel = #{record.channel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costTime != null">
+        cost_time = #{record.costTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberuuid != null">
+        memberuuid = #{record.memberuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.method != null">
+        method = #{record.method,jdbcType=VARCHAR},
+      </if>
+      <if test="record.module != null">
+        module = #{record.module,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reqData != null">
+        req_data = #{record.reqData,jdbcType=VARCHAR},
+      </if>
+      <if test="record.respData != null">
+        resp_data = #{record.respData,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceIp != null">
+        source_ip = #{record.sourceIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_system_record
+    set uuid = #{record.uuid,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      delete_date = #{record.deleteDate,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      channel = #{record.channel,jdbcType=VARCHAR},
+      cost_time = #{record.costTime,jdbcType=VARCHAR},
+      memberuuid = #{record.memberuuid,jdbcType=VARCHAR},
+      method = #{record.method,jdbcType=VARCHAR},
+      module = #{record.module,jdbcType=VARCHAR},
+      req_data = #{record.reqData,jdbcType=VARCHAR},
+      resp_data = #{record.respData,jdbcType=VARCHAR},
+      source_ip = #{record.sourceIp,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.framework.dao.mybatis.model.SystemRecord">
+    update t_system_record
+    <set>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteDate != null">
+        delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="costTime != null">
+        cost_time = #{costTime,jdbcType=VARCHAR},
+      </if>
+      <if test="memberuuid != null">
+        memberuuid = #{memberuuid,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null">
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null">
+        module = #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="reqData != null">
+        req_data = #{reqData,jdbcType=VARCHAR},
+      </if>
+      <if test="respData != null">
+        resp_data = #{respData,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceIp != null">
+        source_ip = #{sourceIp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.framework.dao.mybatis.model.SystemRecord">
+    update t_system_record
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      channel = #{channel,jdbcType=VARCHAR},
+      cost_time = #{costTime,jdbcType=VARCHAR},
+      memberuuid = #{memberuuid,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      module = #{module,jdbcType=VARCHAR},
+      req_data = #{reqData,jdbcType=VARCHAR},
+      resp_data = #{respData,jdbcType=VARCHAR},
+      source_ip = #{sourceIp,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

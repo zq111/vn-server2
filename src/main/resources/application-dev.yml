@@ -1,0 +1,6 @@
+#测试环境数据源
+spring:
+  datasource:
+    url: jdbc:derby:db/server_state;create=true
+    username: root
+    password: 123

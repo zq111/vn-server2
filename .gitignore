@@ -1,0 +1,16 @@
+logs
+target
+*.iml
+rebel*.xml
+classes/
+doc/*.pdb
+out/
+.sass-cache/
+.DS_Store
+*/.DS_Store
+.idea
+.classpath
+.project
+.settings
+*.log
+*/*.iml
